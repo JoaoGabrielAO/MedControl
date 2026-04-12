@@ -101,23 +101,23 @@ medcontrol/
 │
 ├── .github/
 │   └── workflows/
-│       └── ci.yml           # Pipeline de CI (lint + testes)
+│       └── ci.yml           
 │
 ├── src/
 │   ├── __init__.py
-│   ├── main.py              # Ponto de entrada da aplicação
-│   ├── cli.py               # Interface de linha de comando (menu interativo)
-│   ├── models.py            # Modelo de dados: Medication (dataclass)
-│   └── storage.py           # Camada de persistência (JSON)
+│   ├── main.py              
+│   ├── cli.py              
+│   ├── models.py            
+│   └── storage.py           
 │
 ├── tests/
 │   ├── __init__.py
-│   └── test_medcontrol.py   # Testes automatizados (pytest)
+│   └── test_medcontrol.py   
 │
-├── data/                    # Criado em runtime; ignorado pelo git
+├── data/                    
 │   └── medications.json
 │
-├── .flake8                  # Configuração do linter
+├── .flake8                  
 ├── .gitignore
 ├── README.md
 ├── requirements.txt
@@ -137,7 +137,7 @@ medcontrol/
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/SEU_USUARIO/medcontrol.git
+git clone https://github.com/JoaoGabrielAO/medcontrol.git
 cd medcontrol
 
 # 2. Crie e ative o ambiente virtual
@@ -273,7 +273,7 @@ MAJOR.MINOR.PATCH
 
 ## 👤 Autor
 
-**João Gabriel Araujo de Oliveira**
+**JoaoGabrielAO**
 
 Desenvolvido como projeto acadêmico de programação, aplicando boas práticas de engenharia de software: estrutura modular, testes automatizados, linting, CI/CD e versionamento semântico.
 
@@ -281,9 +281,9 @@ Desenvolvido como projeto acadêmico de programação, aplicando boas práticas 
 
 ## 🔗 Repositório
 
-> 📌 Link do repositório: **[https://github.com/SEU_USUARIO/medcontrol](https://github.com/SEU_USUARIO/medcontrol)**
+> 📌 Link do repositório: **[https://github.com/JoaoGabrielAO/medcontrol](https://github.com/JoaoGabrielAO/medcontrol)**
 >
-> *(Substitua `SEU_USUARIO` pelo seu nome de usuário do GitHub)*
+> 
 
 ---
 
