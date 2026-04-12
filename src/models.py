@@ -1,6 +1,6 @@
 """Modelos de dados da aplicação MedControl."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List
 
 
