@@ -1,0 +1,13 @@
+# ─────────────────────────────────────────────
+#  MedControl — Dependências do Projeto
+# ─────────────────────────────────────────────
+
+# Testes
+pytest==8.2.2
+pytest-cov==5.0.0
+
+# Linting estático
+flake8==7.1.0
+
+# Sem dependências de runtime externas —
+# o projeto usa apenas a biblioteca padrão do Python 3.10+
