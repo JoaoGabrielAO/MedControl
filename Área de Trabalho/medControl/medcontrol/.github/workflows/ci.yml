@@ -1,0 +1,61 @@
+name: CI — MedControl
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lint-and-test:
+    name: Lint & Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      # 1. Faz checkout do código
+      - name: 📥 Checkout do repositório
+        uses: actions/checkout@v4
+
+      # 2. Configura a versão do Python
+      - name: 🐍 Configurar Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # 3. Cache do pip para acelerar builds
+      - name: 📦 Cache de dependências pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # 4. Instala as dependências
+      - name: ⚙️ Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 5. Executa o linter flake8
+      - name: 🔍 Linting com flake8
+        run: |
+          flake8 src/ tests/
+
+      # 6. Executa os testes com cobertura
+      - name: 🧪 Testes com pytest + cobertura
+        run: |
+          pytest tests/ \
+            --tb=short \
+            --cov=src \
+            --cov-report=term-missing \
+            -v
+
+      # 7. (Opcional) Exibe resumo no log do GitHub
+      - name: 📊 Resumo dos testes
+        if: always()
+        run: echo "Pipeline concluído para Python ${{ matrix.python-version }}"
