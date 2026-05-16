@@ -6,7 +6,7 @@ import os
 # Garante que o Python encontre a pasta 'src'
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from src.Storage import MedicationStorage
+from src.storage import MedicationStorage
 from src.models import Medication
 
 # Configurações da página
