@@ -3,23 +3,20 @@ import requests
 import sys
 import os
 
-# Garante que o Python encontre a pasta 'src'
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from src.storage import MedicationStorage
 from src.models import Medication
 
-# Configurações da página
 st.set_page_config(page_title="MedControl 💊", layout="centered")
 
-# Inicializa o 'motor' com o nome CORRETO da classe
-# Se o arquivo não existir, ele criará na pasta data/
+
 storage = MedicationStorage()
 
 st.title("💊 MedControl")
 st.markdown("---")
 
-# 1. ADICIONAMOS A NOVA OPÇÃO AQUI NO MENU
+
 menu = st.sidebar.selectbox("O que deseja fazer?", ["Listar Medicamentos", "Cadastrar Novo", "Remover", "Buscar Farmácia (CEP)"])
 
 if menu == "Listar Medicamentos":
@@ -72,7 +69,7 @@ elif menu == "Remover":
     else:
         st.info("Nada para remover.")
 
-# 2. ADICIONAMOS O BLOCO NOVO AQUI
+
 elif menu == "Buscar Farmácia (CEP)":
     st.header("📍 Encontrar Farmácia")
     st.write("Digite o CEP para encontrar o endereço da farmácia de confiança.")
@@ -81,14 +78,14 @@ elif menu == "Buscar Farmácia (CEP)":
     
     if st.button("Buscar Endereço"):
         if len(cep_input) == 8:
-            # Fazemos a chamada para a API exatamente como no teste
+            
             url = f"https://viacep.com.br/ws/{cep_input}/json/"
             resposta = requests.get(url)
             
             if resposta.status_code == 200:
                 dados = resposta.json()
                 
-                # O ViaCEP retorna "erro": true se o CEP não existir
+                
                 if "erro" in dados:
                     st.error("CEP não encontrado. Verifique os números.")
                 else:
