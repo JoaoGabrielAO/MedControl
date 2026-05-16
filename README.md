@@ -1,6 +1,5 @@
 # 💊 MedControl
-link📌:https://medcontrol-729rkg8mhkf54yfepxwhme.streamlit.app/
-
+🚀 **Aplicação Online (Deploy):** [Clique aqui para acessar o MedControl](https://medcontrol-729rkg8mhkf54yfepxwhme.streamlit.app/)
 <p align="center">
   <img src="https://img.shields.io/badge/versão-1.0.0-blue?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/python-3.10%2B-yellow?style=for-the-badge&logo=python" alt="Python">
