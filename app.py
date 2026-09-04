@@ -7,6 +7,11 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from src.storage import MedicationStorage
 from src.models import Medication
+from src.reminders import (
+    verificar_status_geral,
+    pegar_emoji_do_status,
+    pegar_texto_do_status,
+)
 
 st.set_page_config(page_title="MedControl 💊", layout="centered")
 
@@ -26,8 +31,31 @@ if menu == "Listar Medicamentos":
     if not medicamentos:
         st.info("Nenhum medicamento cadastrado ainda.")
     else:
+        # Contamos quantos remédios estão atrasados ou próximos
+        quantidade_atrasados = 0
+        quantidade_proximos = 0
+
         for med in medicamentos:
-            with st.expander(f"📌 {med.name} - {med.dosage}"):
+            status_do_medicamento = verificar_status_geral(med.schedules)
+            if status_do_medicamento == "atrasado":
+                quantidade_atrasados = quantidade_atrasados + 1
+            elif status_do_medicamento == "proximo":
+                quantidade_proximos = quantidade_proximos + 1
+
+        if quantidade_atrasados > 0:
+            st.error(f"🔴 {quantidade_atrasados} medicamento(s) com horário atrasado!")
+
+        if quantidade_proximos > 0:
+            st.warning(f"🟡 {quantidade_proximos} medicamento(s) com horário próximo (próximos 30 min).")
+
+        # Agora mostramos cada medicamento com seu status individual
+        for med in medicamentos:
+            status_do_medicamento = verificar_status_geral(med.schedules)
+            emoji = pegar_emoji_do_status(status_do_medicamento)
+            texto_status = pegar_texto_do_status(status_do_medicamento)
+
+            with st.expander(f"{emoji} {med.name} - {med.dosage}"):
+                st.write(f"**Status:** {emoji} {texto_status}")
                 st.write(f"**Horários:** {', '.join(med.schedules)}")
                 st.write(f"**Observações:** {med.notes if med.notes else 'Sem observações.'}")
                 st.caption(f"ID: {med.id}")

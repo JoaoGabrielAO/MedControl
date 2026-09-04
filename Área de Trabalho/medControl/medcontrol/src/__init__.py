@@ -1,1 +1,0 @@
-# MedControl — pacote principal
