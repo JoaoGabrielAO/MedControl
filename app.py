@@ -27,9 +27,26 @@ menu = st.sidebar.selectbox("O que deseja fazer?", ["Listar Medicamentos", "Cada
 if menu == "Listar Medicamentos":
     st.header("📋 Lista de Remédios")
     medicamentos = storage.list_all()
-    
+
+    # Campo de busca: o usuário digita um texto e a gente filtra pelo nome
+    texto_busca = st.text_input("🔎 Buscar medicamento pelo nome")
+
+    if texto_busca:
+        # Deixamos tudo em minúsculo para a busca não diferenciar maiúsculas de minúsculas
+        texto_busca_minusculo = texto_busca.strip().lower()
+
+        medicamentos_filtrados = []
+        for med in medicamentos:
+            if texto_busca_minusculo in med.name.lower():
+                medicamentos_filtrados.append(med)
+
+        medicamentos = medicamentos_filtrados
+
     if not medicamentos:
-        st.info("Nenhum medicamento cadastrado ainda.")
+        if texto_busca:
+            st.info("Nenhum medicamento encontrado com esse nome.")
+        else:
+            st.info("Nenhum medicamento cadastrado ainda.")
     else:
         # Contamos quantos remédios estão atrasados ou próximos
         quantidade_atrasados = 0
