@@ -234,3 +234,44 @@ class TestCasosLimite:
         med = storage.add("Magnésio", "300mg", ["08:00", "", "  ", "22:00"])
         assert "" not in med.schedules
         assert len(med.schedules) == 2
+
+
+# ---------------------------------------------------------------------------
+# Testes do informativo do remédio (para que serve / contraindicações)
+# ---------------------------------------------------------------------------
+
+class TestInformativoRemedio:
+    """Testa os campos opcionais de informativo do remédio."""
+
+    def test_cadastro_com_informativo_completo(self, storage):
+        """Deve salvar corretamente os campos de informativo quando informados."""
+        med = storage.add(
+            "Dipirona",
+            "500mg",
+            ["08:00"],
+            notes="",
+            para_que_serve="Dor e febre",
+            contraindicacoes="Alergia a dipirona",
+        )
+        assert med.para_que_serve == "Dor e febre"
+        assert med.contraindicacoes == "Alergia a dipirona"
+
+    def test_cadastro_sem_informativo_usa_padrao_vazio(self, storage):
+        """Se o usuário não preencher o informativo, deve ficar vazio (não obrigatório)."""
+        med = storage.add("Paracetamol", "750mg", ["12:00"])
+        assert med.para_que_serve == ""
+        assert med.contraindicacoes == ""
+
+    def test_informativo_persiste_apos_salvar_e_recarregar(self, storage):
+        """O informativo deve ser salvo e recuperado corretamente do arquivo."""
+        storage.add(
+            "Ibuprofeno",
+            "400mg",
+            ["09:00"],
+            para_que_serve="Inflamação",
+            contraindicacoes="Problemas gástricos",
+        )
+        medicamentos = storage.list_all()
+        encontrado = medicamentos[0]
+        assert encontrado.para_que_serve == "Inflamação"
+        assert encontrado.contraindicacoes == "Problemas gástricos"

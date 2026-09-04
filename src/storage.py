@@ -61,7 +61,15 @@ class MedicationStorage:
         self._id_counter += 1
         return self._id_counter
 
-    def add(self, name: str, dosage: str, schedules: List[str], notes: str = "") -> Medication:
+    def add(
+        self,
+        name: str,
+        dosage: str,
+        schedules: List[str],
+        notes: str = "",
+        para_que_serve: str = "",
+        contraindicacoes: str = "",
+    ) -> Medication:
         """Adiciona um novo medicamento."""
         if not name or not name.strip():
             raise ValueError("O nome do medicamento não pode ser vazio.")
@@ -76,6 +84,8 @@ class MedicationStorage:
             dosage=dosage.strip(),
             schedules=[s.strip() for s in schedules if s.strip()],
             notes=notes.strip(),
+            para_que_serve=para_que_serve.strip(),
+            contraindicacoes=contraindicacoes.strip(),
         )
         self._medications.append(med)
         self._save()
