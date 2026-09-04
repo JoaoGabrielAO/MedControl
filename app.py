@@ -27,26 +27,9 @@ menu = st.sidebar.selectbox("O que deseja fazer?", ["Listar Medicamentos", "Cada
 if menu == "Listar Medicamentos":
     st.header("📋 Lista de Remédios")
     medicamentos = storage.list_all()
-
-    # Campo de busca: o usuário digita um texto e a gente filtra pelo nome
-    texto_busca = st.text_input("🔎 Buscar medicamento pelo nome")
-
-    if texto_busca:
-        # Deixamos tudo em minúsculo para a busca não diferenciar maiúsculas de minúsculas
-        texto_busca_minusculo = texto_busca.strip().lower()
-
-        medicamentos_filtrados = []
-        for med in medicamentos:
-            if texto_busca_minusculo in med.name.lower():
-                medicamentos_filtrados.append(med)
-
-        medicamentos = medicamentos_filtrados
-
+    
     if not medicamentos:
-        if texto_busca:
-            st.info("Nenhum medicamento encontrado com esse nome.")
-        else:
-            st.info("Nenhum medicamento cadastrado ainda.")
+        st.info("Nenhum medicamento cadastrado ainda.")
     else:
         # Contamos quantos remédios estão atrasados ou próximos
         quantidade_atrasados = 0
@@ -75,6 +58,13 @@ if menu == "Listar Medicamentos":
                 st.write(f"**Status:** {emoji} {texto_status}")
                 st.write(f"**Horários:** {', '.join(med.schedules)}")
                 st.write(f"**Observações:** {med.notes if med.notes else 'Sem observações.'}")
+
+                if med.para_que_serve:
+                    st.write(f"**Para que serve:** {med.para_que_serve}")
+
+                if med.contraindicacoes:
+                    st.write(f"**Contraindicações:** {med.contraindicacoes}")
+
                 st.caption(f"ID: {med.id}")
 
 elif menu == "Cadastrar Novo":
@@ -85,14 +75,23 @@ elif menu == "Cadastrar Novo":
         dosagem = st.text_input("Dosagem (ex: 50mg, 1 comprimido)")
         horarios = st.text_input("Horários (separe por vírgula, ex: 08:00, 20:00)")
         notas = st.text_area("Observações Adicionais")
-        
+        para_que_serve = st.text_area("Para que serve (opcional)")
+        contraindicacoes = st.text_area("Contraindicações (opcional)")
+
         enviado = st.form_submit_button("Salvar Medicamento")
-        
+
         if enviado:
             if nome and dosagem and horarios:
                 lista_horarios = [h.strip() for h in horarios.split(",")]
                 try:
-                    novo_med = storage.add(nome, dosagem, lista_horarios, notas)
+                    novo_med = storage.add(
+                        nome,
+                        dosagem,
+                        lista_horarios,
+                        notas,
+                        para_que_serve,
+                        contraindicacoes,
+                    )
                     st.success(f"✅ {nome} cadastrado com sucesso!")
                 except Exception as e:
                     st.error(f"Erro ao salvar: {e}")
